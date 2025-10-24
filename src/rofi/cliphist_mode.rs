@@ -76,16 +76,6 @@ impl ClipHistMode {
                     [
                         KbCustom::new(1, config.image_mode.shortcut, config.image_mode.description),
                         KbCustom::new(3, delete_shortcut, delete_description),
-                        KbCustom::new(
-                            4,
-                            &config.delete_previous_mode.shortcut,
-                            config.delete_previous_mode.description.clone(),
-                        ),
-                        KbCustom::new(
-                            5,
-                            &config.delete_next_mode.shortcut,
-                            config.delete_next_mode.description.clone(),
-                        ),
                     ],
                     Self::theme(Mode::Text),
                 ),
@@ -98,16 +88,6 @@ impl ClipHistMode {
                     [
                         KbCustom::new(2, config.text_mode.shortcut, config.text_mode.description),
                         KbCustom::new(3, delete_shortcut, delete_description),
-                        KbCustom::new(
-                            4,
-                            &config.delete_previous_mode.shortcut,
-                            config.delete_previous_mode.description.clone(),
-                        ),
-                        KbCustom::new(
-                            5,
-                            &config.delete_next_mode.shortcut,
-                            config.delete_next_mode.description.clone(),
-                        ),
                     ],
                     Self::theme(Mode::Image),
                 ),
@@ -242,10 +222,12 @@ impl ClipHistMode {
 
         match mode {
         Mode::Text => vec![
-            "element { children: [element-text]; orientation: vertical; }".into(),
-            "listview { layout: vertical; }".into(),
+            "element { children: [element-text]; orientation: vertical; padding: 5px 2px; }".into(),
+            "listview { lines: 15; layout: vertical; }".into(),
         ],
         Mode::Image => vec![
+            "inputbar { enabled: false; }".into(),
+            "mode-switcher { enabled: false; }".into(),
             "element { children: [element-icon]; orientation: vertical;}".into(),
             "element-icon { size: 228px; padding: 0px; }".into(),
             "listview { layout: vertical; lines: 3; columns: 3; fixed-height: true; fixed-columns: true; }".into(),
@@ -255,8 +237,8 @@ impl ClipHistMode {
 
     fn title(mode: Mode) -> String {
         match mode {
-            Mode::Text => "Texts".into(),
-            Mode::Image => "Images".into(),
+            Mode::Text => "".into(),
+            Mode::Image => "".into(),
         }
     }
 }

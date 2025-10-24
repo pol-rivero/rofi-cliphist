@@ -75,17 +75,17 @@ impl Default for Config {
             clipboard: Clipboard::default(),
             image_mode_config: ModeConfig {
                 title: "Images".to_string(),
-                shortcut: "Alt+i".to_string(),
+                shortcut: "Super+c".to_string(),
                 description: "Switch to images".to_string(),
             },
             text_mode_config: ModeConfig {
                 title: "Texts".to_string(),
-                shortcut: "Alt+t".to_string(),
+                shortcut: "Super+c".to_string(),
                 description: "Switch to text".to_string(),
             },
             delete_mode_config: ModeConfig {
                 title: "Delete".to_string(),
-                shortcut: "Alt+d".to_string(),
+                shortcut: "Delete".to_string(),
                 description: "Delete entry".to_string(),
             },
             delete_previous_config: default_delete_previous_config(),
@@ -121,7 +121,7 @@ impl Default for Clipboard {
 fn default_image_mode_config() -> ModeConfig {
     ModeConfig {
         title: "Images".to_string(),
-        shortcut: "Alt+i".to_string(),
+        shortcut: "Super+c".to_string(),
         description: "Switch to images".to_string(),
     }
 }
@@ -129,7 +129,7 @@ fn default_image_mode_config() -> ModeConfig {
 fn default_text_mode_config() -> ModeConfig {
     ModeConfig {
         title: "Texts".to_string(),
-        shortcut: "Alt+t".to_string(),
+        shortcut: "Super+c".to_string(),
         description: "Switch to text".to_string(),
     }
 }
@@ -137,7 +137,7 @@ fn default_text_mode_config() -> ModeConfig {
 fn default_delete_mode_config() -> ModeConfig {
     ModeConfig {
         title: "Delete".to_string(),
-        shortcut: "Alt+d".to_string(),
+        shortcut: "Delete".to_string(),
         description: "Delete entry".to_string(),
     }
 }

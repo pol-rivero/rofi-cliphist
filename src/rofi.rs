@@ -126,6 +126,8 @@ impl From<&RofiOptions> for Vec<String> {
             options.push("-format".into());
             options.push(format.into());
         }
+        options.push("-kb-remove-char-forward".into());
+        options.push("".into());
         for KbCustom { key, shortcut, .. } in &val.custom_kbs {
             options.push(format!("-kb-custom-{key}"));
             options.push(shortcut.into());
