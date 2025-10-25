@@ -42,6 +42,7 @@ pub struct RofiOptions {
     format: Option<String>, // not expose format to foce using "i"
     pub case_insensitive: bool,
     pub custom_kbs: Vec<KbCustom>,
+    pub force_paged_scroll: bool,
     pub dmenu: bool,
     pub mesg: Option<String>,
     pub no_custom: bool,
@@ -63,6 +64,7 @@ impl Default for RofiOptions {
         RofiOptions {
             case_insensitive: true,
             custom_kbs: vec![],
+            force_paged_scroll: false,
             dmenu: true,
             format: Some("i".into()), // force return index instead of value
             mesg: None,
@@ -79,6 +81,7 @@ impl RofiOptions {
         prompt: impl Into<String>,
         mesg: impl Into<String>,
         custom_kbs: K,
+        force_paged_scroll: bool,
         theme_str: I,
     ) -> Self
     where
@@ -92,6 +95,7 @@ impl RofiOptions {
             prompt: Some(prompt.into()),
             custom_kbs: custom_kbs.into_iter().collect::<Vec<_>>(),
             theme_str: theme_str.into_iter().map(|s| s.into()).collect::<Vec<_>>(),
+            force_paged_scroll,
             ..Default::default()
         }
     }
@@ -125,6 +129,10 @@ impl From<&RofiOptions> for Vec<String> {
         if let Some(format) = &val.format {
             options.push("-format".into());
             options.push(format.into());
+        }
+        if val.force_paged_scroll {
+            options.push("-scroll-method".into());
+            options.push("0".into());
         }
         options.push("-kb-remove-char-forward".into());
         options.push("".into());
