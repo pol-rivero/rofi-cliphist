@@ -7,6 +7,7 @@ use crate::{
     cliphist::{ClipHist, ClipHistEntry},
     config,
     rofi::{self, RofiEntry},
+    ydotool::Ydotool,
 };
 
 use super::{KbCustom, Rofi, RofiOptions, RofiResult};
@@ -34,6 +35,7 @@ pub struct ClipHistMode {
     cache: SimpleCache,
     cliphist: ClipHist,
     clipboard: Clipboard,
+    ydotool: Ydotool,
     txt: RofiState,
     img: RofiState,
     mode: Mode,
@@ -51,6 +53,7 @@ impl ClipHistMode {
         cache: SimpleCache,
         cliphist: ClipHist,
         clipboard: Clipboard,
+        ydotool: Ydotool,
         config: ClipHistModeConfig,
     ) -> anyhow::Result<Self> {
         trace!("Creating ClipHistMode");
@@ -67,6 +70,7 @@ impl ClipHistMode {
             cache,
             cliphist,
             clipboard,
+            ydotool,
             txt: RofiState {
                 entries: txt,
                 options: RofiOptions::new(
@@ -154,6 +158,7 @@ impl ClipHistMode {
                             .value_of(cliphist_id)
                             .context("Error getting cliphist entry")?,
                     )?;
+                    self.ydotool.paste().context("Error pasting via ydotool")?;
                     return Ok(());
                 }
                 RofiResult::Keyboard { key, id } => {

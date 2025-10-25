@@ -14,6 +14,8 @@ pub struct Config {
     pub cliphist: ClipHist,
     #[serde(default)]
     pub clipboard: Clipboard,
+    #[serde(default)]
+    pub ydotool: Ydotool,
     #[serde(default = "default_image_mode_config")]
     pub image_mode_config: ModeConfig,
     #[serde(default = "default_text_mode_config")]
@@ -38,6 +40,11 @@ pub struct ClipHist {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Clipboard {
+    pub path: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Ydotool {
     pub path: String,
 }
 
@@ -74,6 +81,7 @@ impl Default for Config {
             rofi: Rofi::default(),
             cliphist: ClipHist::default(),
             clipboard: Clipboard::default(),
+            ydotool: Ydotool::default(),
             image_mode_config: ModeConfig {
                 title: "Images".to_string(),
                 shortcut: "Super+c".to_string(),
@@ -118,6 +126,14 @@ impl Default for Clipboard {
     fn default() -> Self {
         Self {
             path: "wl-copy".to_string(),
+        }
+    }
+}
+
+impl Default for Ydotool {
+    fn default() -> Self {
+        Self {
+            path: "ydotool".to_string(),
         }
     }
 }

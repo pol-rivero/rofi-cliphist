@@ -6,6 +6,7 @@ use log::{debug, info, Level};
 use roto::{
     cache, clipboard, cliphist, config,
     rofi::{self, cliphist_mode::ClipHistMode},
+    ydotool,
 };
 
 #[derive(Parser, Debug)]
@@ -26,6 +27,10 @@ struct Args {
     /// Path to wl-copy executable
     #[clap(short = 'w', long, default_value = "wl-copy")]
     clipboard_path: Option<String>,
+
+    /// Path to ydotool executable
+    #[clap(short = 'y', long, default_value = "ydotool")]
+    ydotool_path: Option<String>,
 
     /// Sets a custom config file
     #[arg(short = 'f', long, value_name = "FILE")]
@@ -63,6 +68,7 @@ fn main() -> anyhow::Result<()> {
     let cliphist = cliphist::new(cfg.cliphist.path);
     let cache = cache::SimpleCache::new("rofi-cliphist/thumbs-new").expect("Error creating cache");
     let clipboard = clipboard::new(cfg.clipboard.path);
+    let ydotool = ydotool::new(cfg.ydotool.path);
     let rofi = rofi::new(cfg.rofi.path);
 
     debug!("Starting ClipHistMode");
@@ -72,6 +78,7 @@ fn main() -> anyhow::Result<()> {
         cache,
         cliphist,
         clipboard,
+        ydotool,
         rofi::cliphist_mode::ClipHistModeConfig {
             text_mode: cfg.text_mode_config,
             image_mode: cfg.image_mode_config,
@@ -86,5 +93,6 @@ fn main() -> anyhow::Result<()> {
 fn merge_args_into_config(cfg: &mut config::Config, args: Args) {
     cfg.rofi.path = args.rofi_path.unwrap_or(cfg.rofi.path.clone());
     cfg.clipboard.path = args.clipboard_path.unwrap_or(cfg.clipboard.path.clone());
+    cfg.ydotool.path = args.ydotool_path.unwrap_or(cfg.ydotool.path.clone());
     cfg.cliphist.path = args.cliphist_path.unwrap_or(cfg.cliphist.path.clone());
 }

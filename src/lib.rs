@@ -3,3 +3,4 @@ pub mod clipboard;
 pub mod cliphist;
 pub mod config;
 pub mod rofi;
+pub mod ydotool;
