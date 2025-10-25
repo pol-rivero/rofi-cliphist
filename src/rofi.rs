@@ -43,6 +43,7 @@ pub struct RofiOptions {
     pub case_insensitive: bool,
     pub custom_kbs: Vec<KbCustom>,
     pub force_paged_scroll: bool,
+    pub show_message: bool,
     pub dmenu: bool,
     pub mesg: Option<String>,
     pub no_custom: bool,
@@ -55,6 +56,7 @@ pub struct RofiOptions {
 pub struct KbCustom {
     key: i32,
     shortcut: String,
+    display_shortcut: String,
     description: String,
 }
 
@@ -65,6 +67,7 @@ impl Default for RofiOptions {
             case_insensitive: true,
             custom_kbs: vec![],
             force_paged_scroll: false,
+            show_message: true,
             dmenu: true,
             format: Some("i".into()), // force return index instead of value
             mesg: None,
@@ -82,6 +85,7 @@ impl RofiOptions {
         mesg: impl Into<String>,
         custom_kbs: K,
         force_paged_scroll: bool,
+        show_message: bool,
         theme_str: I,
     ) -> Self
     where
@@ -96,17 +100,24 @@ impl RofiOptions {
             custom_kbs: custom_kbs.into_iter().collect::<Vec<_>>(),
             theme_str: theme_str.into_iter().map(|s| s.into()).collect::<Vec<_>>(),
             force_paged_scroll,
+            show_message,
             ..Default::default()
         }
     }
 }
 
 impl KbCustom {
-    pub fn new(key: i32, shortcut: impl Into<String>, description: impl Into<String>) -> Self {
+    pub fn new(
+        key: i32,
+        shortcut: impl Into<String>,
+        display_shortcut: impl Into<String>,
+        description: impl Into<String>,
+    ) -> Self {
         trace!("Creating KbCustom");
         KbCustom {
             key,
             shortcut: shortcut.into(),
+            display_shortcut: display_shortcut.into(),
             description: description.into(),
         }
     }
@@ -140,15 +151,22 @@ impl From<&RofiOptions> for Vec<String> {
             options.push(format!("-kb-custom-{key}"));
             options.push(shortcut.into());
         }
-        if !&val.custom_kbs.is_empty() {
+        if val.show_message && !&val.custom_kbs.is_empty() {
             let mut mesg = String::from("<span size='small' alpha='70%'>");
-            for KbCustom {
-                shortcut,
-                description,
-                ..
-            } in &val.custom_kbs
+            let len = val.custom_kbs.len();
+            for (
+                i,
+                KbCustom {
+                    display_shortcut,
+                    description,
+                    ..
+                },
+            ) in val.custom_kbs.iter().enumerate()
             {
-                mesg.push_str(format!("<b>{shortcut}</b>: {description} | ").as_str());
+                mesg.push_str(format!("<b>{display_shortcut}</b>: {description}").as_str());
+                if i < len - 1 {
+                    mesg.push_str(" | ");
+                }
             }
             mesg.push_str("</span>");
             options.push("-mesg".into());

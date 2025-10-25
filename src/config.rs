@@ -45,6 +45,7 @@ pub struct Clipboard {
 pub struct ModeConfig {
     pub title: String,
     pub shortcut: String,
+    pub display_shortcut: String,
     pub description: String,
 }
 
@@ -76,16 +77,19 @@ impl Default for Config {
             image_mode_config: ModeConfig {
                 title: "Images".to_string(),
                 shortcut: "Super+c".to_string(),
+                display_shortcut: "Super+V".to_string(),
                 description: "Switch to images".to_string(),
             },
             text_mode_config: ModeConfig {
                 title: "Texts".to_string(),
                 shortcut: "Super+c".to_string(),
+                display_shortcut: "Super+V".to_string(),
                 description: "Switch to text".to_string(),
             },
             delete_mode_config: ModeConfig {
                 title: "Delete".to_string(),
                 shortcut: "Delete".to_string(),
+                display_shortcut: "Del".to_string(),
                 description: "Delete entry".to_string(),
             },
             delete_previous_config: default_delete_previous_config(),
@@ -122,6 +126,7 @@ fn default_image_mode_config() -> ModeConfig {
     ModeConfig {
         title: "Images".to_string(),
         shortcut: "Super+c".to_string(),
+        display_shortcut: "Super+V".to_string(),
         description: "Switch to images".to_string(),
     }
 }
@@ -130,6 +135,7 @@ fn default_text_mode_config() -> ModeConfig {
     ModeConfig {
         title: "Texts".to_string(),
         shortcut: "Super+c".to_string(),
+        display_shortcut: "Super+V".to_string(),
         description: "Switch to text".to_string(),
     }
 }
@@ -138,6 +144,7 @@ fn default_delete_mode_config() -> ModeConfig {
     ModeConfig {
         title: "Delete".to_string(),
         shortcut: "Delete".to_string(),
+        display_shortcut: "Del".to_string(),
         description: "Delete entry".to_string(),
     }
 }
@@ -146,6 +153,7 @@ fn default_delete_previous_config() -> ModeConfig {
     ModeConfig {
         title: "Delete previous".to_string(),
         shortcut: "Alt+p".to_string(),
+        display_shortcut: "Alt+P".to_string(),
         description: "Delete all entries before the selected one".to_string(),
     }
 }
@@ -154,6 +162,7 @@ fn default_delete_next_config() -> ModeConfig {
     ModeConfig {
         title: "Delete next".to_string(),
         shortcut: "Alt+n".to_string(),
+        display_shortcut: "Alt+N".to_string(),
         description: "Delete all entries after the selected one".to_string(),
     }
 }

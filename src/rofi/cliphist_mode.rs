@@ -61,7 +61,6 @@ impl ClipHistMode {
             .into_iter()
             .partition(|e| matches!(e, ClipHistEntry::Text { .. }));
 
-        let delete_shortcut = &config.delete_mode.shortcut;
         let delete_description = &config.delete_mode.description;
         let instance = Self {
             rofi,
@@ -74,10 +73,21 @@ impl ClipHistMode {
                     Self::title(Mode::Text),
                     "",
                     [
-                        KbCustom::new(1, config.image_mode.shortcut, config.image_mode.description),
-                        KbCustom::new(3, delete_shortcut, delete_description),
+                        KbCustom::new(
+                            1,
+                            config.image_mode.shortcut,
+                            config.image_mode.display_shortcut,
+                            config.image_mode.description,
+                        ),
+                        KbCustom::new(
+                            3,
+                            &config.delete_mode.shortcut,
+                            &config.delete_mode.display_shortcut,
+                            delete_description,
+                        ),
                     ],
                     false,
+                    true,
                     Self::theme(Mode::Text),
                 ),
             },
@@ -87,10 +97,21 @@ impl ClipHistMode {
                     Self::title(Mode::Image),
                     "",
                     [
-                        KbCustom::new(2, config.text_mode.shortcut, config.text_mode.description),
-                        KbCustom::new(3, delete_shortcut, delete_description),
+                        KbCustom::new(
+                            2,
+                            config.text_mode.shortcut,
+                            config.text_mode.display_shortcut,
+                            config.text_mode.description,
+                        ),
+                        KbCustom::new(
+                            3,
+                            &config.delete_mode.shortcut,
+                            &config.delete_mode.display_shortcut,
+                            delete_description,
+                        ),
                     ],
                     true,
+                    false,
                     Self::theme(Mode::Image),
                 ),
             },
@@ -232,7 +253,7 @@ impl ClipHistMode {
             "mode-switcher { enabled: false; }".into(),
             "element { children: [element-icon]; orientation: vertical;}".into(),
             "element-icon { size: 228px; padding: 0px; }".into(),
-            "listview { layout: vertical; lines: 3; columns: 3; fixed-height: true; fixed-columns: true; }".into(),
+            "listview { layout: vertical; lines: 3; columns: 3; fixed-height: true; fixed-columns: true; border: none; padding: 3px 0px 0px; }".into(),
         ],
     }
     }
